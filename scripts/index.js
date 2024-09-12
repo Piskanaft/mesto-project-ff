@@ -8,13 +8,15 @@
 
 // @todo: Вывести карточки на страницу
 
-function createCard(card, onСlick) {
+const cardsList = document.querySelector(".places__list");
+function createCard(card, removeCard) {
   const cardTemplate = document.querySelector("#card-template").content.cloneNode(true);
   const cardElement = cardTemplate.querySelector(".card");
   cardElement.querySelector(".card__image").src = card.link;
+  cardElement.querySelector(".card__image").alt = card.name;
   cardElement.querySelector(".card__title").textContent = card.name;
   const deleteButton = cardElement.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", onСlick);
+  deleteButton.addEventListener("click", removeCard);
   return cardElement;
 }
 
@@ -25,7 +27,6 @@ function removeCard(event) {
 
 function addCard(card) {
   const cardElement = createCard(card, removeCard);
-  const cardsList = document.querySelector(".places__list");
   cardsList.append(cardElement);
 }
 
