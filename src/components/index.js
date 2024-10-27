@@ -1,7 +1,7 @@
 import "../pages/index.css";
 import { initialCards } from "./cards.js";
-import { createCard, removeCard, cardLikeHandle } from "./card.js";
-import { openModal, closeModal, overlayClick } from "./modal.js";
+import { createCard, removeCard, handleCardLike } from "./card.js";
+import { openModal, closeModal, handleClickOnOverlay } from "./modal.js";
 
 const page = document.querySelector(".page");
 const cardsList = document.querySelector(".places__list");
@@ -27,24 +27,21 @@ const newCardLink = addCardForm.querySelector(".popup__input_type_url");
 const popupImage = imagePopup.querySelector(".popup__image");
 const popupCaption = imagePopup.querySelector(".popup__caption");
 
-page.addEventListener("click", overlayClick);
+page.addEventListener("click", handleClickOnOverlay);
 closePopupButtons.forEach((button) => button.addEventListener("click", () => closeModal(button.parentElement.parentElement)));
 profileEditButton.addEventListener("click", () => {
+  nameInput.value = profileTitle.textContent;
+  descriptionInput.value = profileDescription.textContent;
   openModal(editPopup);
 });
-profileEditButton.addEventListener("click", insertProfileInfo);
+
 addCardButton.addEventListener("click", () => {
   openModal(newCardPopup);
 });
 
 function addCard(card) {
-  const cardElement = createCard(card, removeCard, cardLikeHandle, enlargeCardImage);
+  const cardElement = createCard(card, removeCard, handleCardLike, enlargeCardImage);
   cardsList.prepend(cardElement);
-}
-
-function insertProfileInfo() {
-  nameInput.value = profileTitle.textContent;
-  descriptionInput.value = profileDescription.textContent;
 }
 
 function handleEditInfoSubmit(evt) {

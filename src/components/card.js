@@ -8,7 +8,7 @@ export function createCard(card, removeCard, likeCard, enlargeCard) {
 
   const deleteButton = cardElement.querySelector(".card__delete-button");
   deleteButton.addEventListener("click", removeCard);
-  
+
   cardElement.querySelector(".card__like-button").addEventListener("click", likeCard);
   cardImage.addEventListener("click", enlargeCard);
   return cardElement;
@@ -18,6 +18,6 @@ export function removeCard(event) {
   card.remove();
 }
 
-export function cardLikeHandle(event) {
+export function handleCardLike(event) {
   event.target.classList.toggle("card__like-button_is-active");
 }
