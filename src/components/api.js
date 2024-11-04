@@ -6,15 +6,19 @@ const config = {
   },
 };
 
+function checkResponse(res, message) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Error: ${res.status}. ${message}`);
+}
+
 export function getProfileInfo() {
   return fetch(`${config.baseUrl}/users/me`, {
     method: "GET",
     headers: config.headers,
   }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}. Couldn't load profile info`);
+    return checkResponse(res, "Couldn't load profile info");
   });
 }
 
@@ -22,11 +26,7 @@ export function getInitialCards() {
   return fetch(`${config.baseUrl}/cards`, {
     headers: config.headers,
   }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-
-    return Promise.reject(`Error: ${res.status}. Couldn't load initial cards`);
+    return checkResponse(res, "Couldn't load initial cards");
   });
 }
 
@@ -39,10 +39,7 @@ export function editProfileInfo(name, about) {
       about: about,
     }),
   }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}. Couldn't edit profile info`);
+    return checkResponse(res, "Couldn't edit profile info");
   });
 }
 
@@ -55,10 +52,7 @@ export function uploadNewCard(card) {
       link: card.link,
     }),
   }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}. Couldn't add new card`);
+    return checkResponse(res, "Couldn't add new card");
   });
 }
 
@@ -67,10 +61,7 @@ export function deleteCardOnServer(cardId) {
     method: "DELETE",
     headers: config.headers,
   }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}. Couldn't delete card`);
+    return checkResponse(res, "Couldn't delete card");
   });
 }
 
@@ -79,24 +70,18 @@ export function toggleCardLikeStatus(cardId, method) {
     method: method,
     headers: config.headers,
   }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Error: ${res.status}. Couldn't change like status`);
+    return checkResponse(res, "Couldn't change like status");
   });
 }
 
 export function uploadNewAvatar(url) {
-    return fetch(`${config.baseUrl}/users/me/avatar`, {
-        method: "PATCH",
-        headers: config.headers,
-        body: JSON.stringify({
-            avatar: url
-        })
-    }).then((res) => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(`Error: ${res.status} during avatar updating`);
-    });
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: "PATCH",
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: url,
+    }),
+  }).then((res) => {
+    return checkResponse(res, "Couldn't update avatar");
+  });
 }
